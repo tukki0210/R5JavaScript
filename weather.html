@@ -1,35 +1,54 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        section {
+            border: 1px solid black;
+            padding: 5px;
+        }
+    </style>
     <title>Document</title>
 </head>
+
 <body>
     <h1>天気予報</h1>
-    <div id="weather"></div>
+    <section>
+        <h2></h2>
+        <h3></h3>
+        <div class="weather"></div>
+    </section>
+    <section>
+        <h2></h2>
+        <h3></h3>
+        <div class="weather"></div>
+    </section>
     <script>
 
-        async function getData(){
+        async function getNara() {
 
-            // fetch()は非同期で実行され、Promiseを持つ
-            // awaitを付けて、待つことを表現
-            const response = await fetch("https://www.jma.go.jp/bosai/forecast/data/overview_forecast/310000.json")
+            const response = await fetch("https://www.jma.go.jp/bosai/forecast/data/overview_forecast/2936200.json")
+            const data = await response.json()
 
-            console.log(response)
-            // response.json()はjsonの生データをJavaScriptのオブジェクトに変換する処理
-            // これもawaitを付ける必要
-           const data = await response.json()
+            document.querySelectorAll('section h2')[0].textContent = data.targetArea
+            document.querySelectorAll('section h3')[0].textContent = data.reportDatetime
+            document.querySelectorAll('section .weather')[0].textContent = data.text
+        }
+        async function getOsaka() {
 
-           console.log(data)
-           console.log(data.publishingOffice)
-           console.log(data.targetArea)
-           console.log(data.text)
-           
-           document.getElementById('weather').textContent = data.text
+            const response = await fetch("https://www.jma.go.jp/bosai/forecast/data/overview_forecast/270000.json")
+            const data = await response.json()
+
+            document.querySelectorAll('section h2')[1].textContent = data.targetArea
+            document.querySelectorAll('section h3')[1].textContent = data.reportDatetime
+            document.querySelectorAll('section .weather')[1].textContent = data.text
         }
 
-        getData()
+        getNara()
+        getOsaka()
     </script>
 </body>
+
 </html>
