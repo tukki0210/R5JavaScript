@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Document</title>
+</head>
+
+<body>
+    <h2></h2>
+    <img height="400"  width="300">
+    <p></p>
+
+    <script>
+        async function getBookData() {
+
+            const response = await fetch("https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404?format=json&keyword=JavaScript&booksGenreId=000&applicationId=1024837784734370415")
+            const data = await response.json()
+
+            console.log(data)
+            console.log(data.Items)
+            console.log(data.Items[0])
+            console.log(data.Items[0].Item.title)
+
+            // 最初のデータを変数にいれる
+            const book = data.Items[1].Item
+            document.querySelector('h2').textContent = book.title
+            document.querySelector('img').setAttribute('src',book.largeImageUrl)
+            document.querySelector('p').textContent = book.itemCaption
+        }
+
+        getBookData()
+    </script>
+</body>
+
+</html>
